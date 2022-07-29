@@ -28,10 +28,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen(viewModel: MainViewModel = MainViewModel()) {
 
-    val textFieldValue = viewModel.textFieldState.observeAsState()
+    val textFieldValue = viewModel.textFieldState.observeAsState("")
 
     GreetUser(currentValue = textFieldValue.value,
-        textFieldValueUpdated = { textFieldValue.value = it })
+        textFieldValueUpdated = { viewModel.textFieldValueUpdated(it)})
 }
 
 @Composable
