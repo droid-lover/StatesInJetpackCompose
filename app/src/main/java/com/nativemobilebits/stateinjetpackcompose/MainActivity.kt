@@ -6,18 +6,15 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.nativemobilebits.stateinjetpackcompose.ui.theme.StateInJetpackComposeTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,12 +26,12 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainScreen() {
-    val textFieldState = remember {
-        mutableStateOf<String>("")
-    }
-    GreetUser(currentValue = textFieldState.value,
-        textFieldValueUpdated = { textFieldState.value = it })
+fun MainScreen(viewModel: MainViewModel = MainViewModel()) {
+
+    val textFieldValue = viewModel.textFieldState.observeAsState()
+
+    GreetUser(currentValue = textFieldValue.value,
+        textFieldValueUpdated = { textFieldValue.value = it })
 }
 
 @Composable
